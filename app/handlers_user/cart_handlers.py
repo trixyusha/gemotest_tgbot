@@ -20,7 +20,6 @@ async def to_cart(callback: CallbackQuery):
     ids = data[0].split('&')
     ide = ids[0].split('#')[1]
     what_is = ids[0].split('#')[0][8:]
-    print(f'\nДобавление в корзину {what_is}')
     cat_id = ids[1].split('#')[0]
     subcat_id = ids[1].split('#')[1]
     cat_name, subcat_name = await get_cat_subcat_names(cat_id, subcat_id, what_is)
