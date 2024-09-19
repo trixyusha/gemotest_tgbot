@@ -10,7 +10,6 @@ from app.database.requests.main_requests import for_get_cart_and_order_data, get
 async def place_order(tg_id, order_num = None, paid = None, anon = None):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.ID == tg_id))
-        print(f'USER QR {user.QR}')
         if order_num:
             cart = await session.scalar(select(Cart).where(Cart.UserID == tg_id))
             order = await session.scalar(select(Order).where(Order.OrderNum == order_num).where(Order.UserID == tg_id))
