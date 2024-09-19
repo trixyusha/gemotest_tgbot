@@ -24,13 +24,11 @@ async def get_user_filter():
     user_ids = [i for i in await admin_requests.get_nonadmin_ids()]
     # router.message.filter(F.from_user.id.in_(user_ids))
     admin_router.message.filter(F.from_user.id.not_in(user_ids))
-    print('>>> ТГ идентификаторы пользователей: ', user_ids)
 
 async def get_admin_filter():
     admin_ids = [i for i in await admin_requests.get_admin_ids()]
     # admin_router.message.filter(F.from_user.id.in_(admin_ids))
     router.message.filter(F.from_user.id.not_in(admin_ids))
-    print('>>> ТГ идентификаторы админов: ', admin_ids)
 
 
 class BlockOrUnblock(StatesGroup):
