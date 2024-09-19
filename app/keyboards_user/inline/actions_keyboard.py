@@ -28,7 +28,6 @@ async def actions_subcategories(action_category_id, only_cat_name):
         keyboard = InlineKeyboardBuilder()
         buf = -1
         for action_subcategory in all_action_subcategories:
-            # print(f'\nRESEARCH {research_subcategory.ID} - {research_subcategory.Name}')
             if buf  ==  0:
                 buf = action_subcategory.ID
             elif buf  ==  action_subcategory.ID:
