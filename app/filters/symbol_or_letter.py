@@ -12,7 +12,6 @@ class MessageMatch(BaseFilter):
     async def __call__(self, message: Message) -> bool:
         if not message.text[1:] in ['cart', 'help']:
             if bool(re.search(r'[a-zA-Z]', message.text)):
-                print('Пользователь не переключил раскладку или пишет на английском языке, или что-то другое...')
                 return False
         if not any(char.isdigit() for char in message.text):
             if message.text[0].isalpha():
@@ -23,5 +22,4 @@ class MessageMatch(BaseFilter):
                     return message.text[2:].lower() in self.texts
             return False
         else: 
-            print('Некорректный ввод сообщения пользователем!')
             return False
