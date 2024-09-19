@@ -1,0 +1,7 @@
+/.venv
+.env
+config*
+*.db
+/graphs
+/files
+/.temp
