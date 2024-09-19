@@ -114,7 +114,6 @@
 #         keyboard = InlineKeyboardBuilder()
 #         buf = -1
 #         for research_subcategory in all_research_subcategories:
-#             # print(f'\nRESEARCH {research_subcategory.ID} - {research_subcategory.Name}')
 #             if buf  ==  0:
 #                 buf = research_subcategory.ID
 #             elif buf  ==  research_subcategory.ID:
@@ -132,12 +131,10 @@
 #     research_category_id = int(ids[0])
 #     research_subcategory_id = int(ids[1])
 #     city_id = await get_city_id(tg_id)
-#     print(f'[RESEARCH] CITY ID {city_id}')
 #     research_subcategory_name = await get_research_subcategory_name(research_subcategory_id)
 #     researches = await get_researches(research_category_id, research_subcategory_id, city_id)
 #     res_dict = {}
 #     rlist = [[i.ID, i.Name, i.ResearchCategoryID, i.ResearchSubcategoryID] for i in researches]
-#     # print(f'\n\nRESEARCHES\n{rlist}\n\n')
 #     count = len(rlist)
 #     pages_count = ceil(count/10)
 #     split = lambda lst, n: [lst[i::n] for i in range(n)]
