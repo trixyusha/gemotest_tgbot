@@ -63,14 +63,12 @@ async def get_contact(message: Message, state: FSMContext) -> None:
             await state.update_data(p_number = message.contact.phone_number[1:])
             # smsc.send_sms(message.contact.phone_number[1:], sms_text)
             start_time = monotonic()
-            print(f'\n\nPHONE NUMBER {message.contact.phone_number[1:]}\n-----------\nTEXT\n{sms_text}\n-----------\n\n')
             await state.set_state(Confirm_Number.confirm_code)
             await state.update_data(confirm_code = ccode, time = start_time)
         else:
             await state.update_data(p_number = message.contact.phone_number)
             # smsc.send_sms(message.contact.phone_number, sms_text)
             start_time = monotonic()
-            print(f'\n\nTIME {start_time}\n-----------\nPHONE NUMBER {message.contact.phone_number}\n-----------\nTEXT\n{sms_text}\n-----------\n\n')
             await state.set_state(Confirm_Number.confirm_code)
             await state.update_data(confirm_code = ccode, time = start_time)
         # Код действителен в течение 15 минут, после чего подключение услуги будет автоматически отменено.
@@ -79,7 +77,6 @@ async def get_contact(message: Message, state: FSMContext) -> None:
             await state.update_data(p_number = message.text)
             # smsc.send_sms(message.contact.phone_number, sms_text)
             start_time = monotonic()
-            print(f'\n\nTIME {start_time}\n-----------\nPHONE NUMBER {message.text}\n-----------\nTEXT\n{sms_text}\n-----------\n\n')
             await state.set_state(Confirm_Number.confirm_code)
             await state.update_data(confirm_code = ccode, time = start_time)
         else: 
@@ -97,7 +94,6 @@ async def get_contact(message: Message, state: FSMContext) -> None:
 async def confirmation(message: Message, state: FSMContext) -> None:
     data = await state.get_data()
     if monotonic() - data['time'] < float(15*60): # 15*60
-        print(f'\n\nNEW IF TIME {monotonic()-data["time"]}\n\n')
         if data['confirm_code']  ==  message.text:
             await message.answer('Услуга <b>"Отправка результатов исследований в Telegram"</b> подключена!', parse_mode = 'HTML', 
                                     reply_markup = await default_keyboard_builder(
@@ -138,7 +134,6 @@ async def re_sending_code(callback: CallbackQuery, state: FSMContext):
         data = await state.get_data()
         await callback.answer()
         start_time = monotonic()
-        print(f'\n\nPHONE NUMBER {data["p_number"]}\n-----------\nTEXT\n{sms_text}\n-----------\n\n')
         await state.set_state(Confirm_Number.confirm_code)
         await state.update_data(confirm_code = ccode, time = start_time)
         await callback.message.edit_text('Код отправлен повторно. Он также действителен 15 минут.', reply_markup = None)
