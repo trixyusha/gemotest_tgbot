@@ -126,7 +126,6 @@ async def get_cart_buttons(tg_id, order = False, message_cart = False, get_text 
         else: del_text = '❌Удалить'
         keyboard.row(InlineKeyboardButton(text = del_text, callback_data = 'delete_all'), width = 1)
         keyboard.row(InlineKeyboardButton(text = '⏪Выйти', callback_data = 'cart_exit'), width = 1)
-        print(f'RESULT TEXT {cart_text}')
         if get_text: return output_text
         if order: return int(total_cost)
         else: return output_text, keyboard.as_markup()
