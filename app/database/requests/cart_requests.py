@@ -11,7 +11,7 @@ from app.database.models import User, Price_Research, Price_Service, Price_Actio
 async def add_to_cart(tg_id, Rid = None, Sid = None, Aid = None):
     async with async_session() as session:
         # сделать отдельные колонки для услуг и исследований в таблице CART
-        print(f'TelegramINFO [ADD TO CART]: Rid: {Rid}, Sid: {Sid}, Aid: {Aid}')
+
         city_id = await get_city_id(tg_id)
         cart = await session.scalar(select(Cart).where(Cart.UserID == tg_id))
         researchid_str = None
@@ -22,7 +22,6 @@ async def add_to_cart(tg_id, Rid = None, Sid = None, Aid = None):
             add_serv_id = await session.scalar(select(Research_Additional_Service.AdditionalServiceID).where(Research_Additional_Service.ResearchID == Rid))
             cost_research = await session.scalar(select(Price_Research.Cost).filter(Price_Research.CityID == city_id).where(Price_Research.ResearchID == Rid))
             cost_add_serv = await session.scalar(select(Price_Additional_Service.Cost).filter(Price_Additional_Service.CityID == city_id).where(Price_Additional_Service.AdditionalServiceID == add_serv_id))
-            print(f'TelegramINFO [ADD TO CART]: Research ID: {Rid}, Additional Service ID: {add_serv_id}\nResearch Cost: {cost_research}, Additional Service Cost: {cost_add_serv}')
             if add_serv_id:
                 researchid_str = str(f'{Rid}/{add_serv_id}')
                 if cart and cart.ResearchIDs:
@@ -31,7 +30,6 @@ async def add_to_cart(tg_id, Rid = None, Sid = None, Aid = None):
                         if '/' in resid:
                             buf_add_serv_id = resid.split('/')[1]
                             if add_serv_id == int(buf_add_serv_id): 
-                                # print('ДОПОЛНИТЕЛЬНАЯ УСЛУГА УЖЕ ЕСТЬ')
                                 cost = cost_research
                                 break
                             else: cost = cost_research + cost_add_serv
