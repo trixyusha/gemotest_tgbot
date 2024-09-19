@@ -6,12 +6,10 @@ async def researches(data, tg_id, only_dict = False):
     research_category_id = int(ids[0])
     research_subcategory_id = int(ids[1])
     city_id = await city_requests.get_city_id(tg_id)
-    print(f'[RESEARCH] CITY ID {city_id}')
     research_subcategory_name = await research_requests.get_research_subcategory_name(research_subcategory_id)
     researches = await research_requests.get_researches(research_category_id, research_subcategory_id, city_id)
     res_dict = {}
     rlist = [[i.ID, i.Name, i.ResearchCategoryID, i.ResearchSubcategoryID] for i in researches]
-    # print(f'\n\nRESEARCHES\n{rlist}\n\n')
     count = len(rlist)
     pages_count = ceil(count/10)
     split = lambda lst, n: [lst[i::n] for i in range(n)]
