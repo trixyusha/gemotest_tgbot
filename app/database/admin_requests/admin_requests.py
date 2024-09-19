@@ -56,19 +56,15 @@ async def count_of_orders(period: int):
     async with async_session() as session:
         # orders = await session.scalars(select(Order))
         if period == 0:
-            print(datetime.today().date())
             return len([item for item in await session.scalars(select(Order).where(func.DATE(Order.RegistrationDate) == datetime.today().date()))]), None
         elif period == 1:
-            print((datetime.now()-timedelta(days = 7)).date())
             return (len([item for item in await session.scalars(select(Order).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 7)).date()))]),
                     await session.scalars(select(Order.RegistrationDate).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 7)).date())))
         elif period == 2:
-            print((datetime.now()-timedelta(days = 30)).date())
             return (len([item for item in await session.scalars(select(Order).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 30)).date()))]),
                     await session.scalars(select(Order.RegistrationDate).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 30)).date())))
         
         else:
-            print((datetime.now()-timedelta(days = 365)).date())
             return (len([item for item in await session.scalars(select(Order).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 365)).date()))]),
                     await session.scalars(select(Order.RegistrationDate).where(func.DATE(Order.RegistrationDate) >= (datetime.now()-timedelta(days = 365)).date())))
         
@@ -96,29 +92,23 @@ async def get_top():
             duplicates_researches = list(set([(order_researches.count(x), x) for x in order_researches if order_researches.count(x) > 1]))
             duplicates_actions = list(set([(order_actions.count(x), x) for x in order_actions if order_actions.count(x) > 1]))
             duplicates_services = list(set([(order_services.count(x), x) for x in order_services if order_services.count(x) > 1]))
-            # print(f'>>> GET TOP\n>>> RESEARCHES\n{order_researches}\n>>> ACTIONS\n{order_actions}\n>>> SERVICES\n{order_services}')
-            # print(f'>>> GET TOP\n>>> DRESEARCHES\n{duplicates_researches}\n>>> DACTIONS\n{duplicates_actions}\n>>> DSERVICES\n{duplicates_services}')
             res = []
             if duplicates_researches or duplicates_actions or duplicates_services:
                 for item in duplicates_researches+duplicates_actions+duplicates_services:
                     res += [item]
-                # print('>>> RES LIST\n', res)
             else:
                 for item in order_researches+order_actions+order_services:
                     res += [(1, item)]
-                # print('>>> RES1 LIST\n', res)
             text = ''
             w = 0
             d_max = []
             dup_counts = [item[0] for item in res]
-            # print('>>> DUP COUNTS: ', dup_counts)
             while w <=  max(dup_counts):
                 temp = max(dup_counts)
                 d_max.append(temp)
                 dup_counts.remove(temp)
                 if w < len(dup_counts): w += 1
                 else: break
-            # print('>>> MAXES: ', d_max)
             i = 1
             for maxi in d_max:
                 for item in res:
@@ -134,7 +124,6 @@ async def get_top():
                             text += f'\n{i}. {name} [{item[0]}]'
                             i += 1
                         break
-            # print('>>> RES TEXT: ', text)
             return text
         else: return 'Пока заказы не оформляли'
         
@@ -143,7 +132,6 @@ async def for_get_cart_and_order_data(data, what): # research = True, action = N
         researches = []
         services = []
         actions = []
-        # print(f'>>> DATA {data}')
         if what:
             for research_id in data.split(','):
                 if '/' in research_id:
