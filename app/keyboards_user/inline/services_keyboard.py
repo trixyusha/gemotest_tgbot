@@ -8,7 +8,6 @@ from app.database.requests.service_requests import get_service_categories, get_s
 
 async def service_categories(tg_id):
     city_id = await get_city_id(tg_id)
-    print(f'[SERVICE CATEGORY] CITY ID {city_id}')
     all_service_categories = await get_service_categories(city_id)
     telemed = None
     keyboard = InlineKeyboardBuilder()
