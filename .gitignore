@@ -5,3 +5,4 @@ config*
 /graphs
 /files
 /.temp
+*pycache*
