@@ -31,7 +31,6 @@ async def research_subcategories(research_category_id, only_cat_name, tg_id):
         keyboard = InlineKeyboardBuilder()
         buf = -1
         for research_subcategory in all_research_subcategories:
-            # print(f'\nRESEARCH {research_subcategory.ID} - {research_subcategory.Name}')
             if buf  ==  0:
                 buf = research_subcategory.ID
             elif buf  ==  research_subcategory.ID:
@@ -55,7 +54,6 @@ async def research_data(research_id, tg_id, page_count, page):
         keyboard.add(InlineKeyboardButton(text = '🛒В корзину', callback_data = f'to_cart_research#{data.ID}&{data.ResearchCategoryID}#{data.ResearchSubcategoryID}/{researches_count}_{page_count}#{page}'))
     keyboard.add(InlineKeyboardButton(text = '⬅️Назад', callback_data = f'rback-to-pagination&{data.ResearchCategoryID}#{data.ResearchSubcategoryID}/{researches_count}_{page_count}#{page}'))
     keyboard.add(InlineKeyboardButton(text = f'⏪Выйти', callback_data = f'exit_to_research_or_service'))
-    # print(f'\nRESEARCH GET DATA\nPAGE COUNT {page_count}\nPAGE {page}\n')
     if price is not None:
         return data.Name, data.Description, price.Cost, keyboard.adjust(1).as_markup()
     else:
