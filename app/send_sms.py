@@ -114,10 +114,3 @@ class SMSC(object):
 			ret="," # фиктивный ответ
 
 		return ret.split(",")
-
-
-# smsc=SMSC()
-# print(f'\n\nКод: {get_kod()}\n\n')
-# r=smsc.get_sms_cost('79021624272', get_kod())
-# # print(f'Мой баланс: {smsc.get_balance()}')
-# print(f'Стоимость смс сообщения: {r[0]}')
