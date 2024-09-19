@@ -20,7 +20,6 @@ async def offline_payment(callback: CallbackQuery):
     data = callback.data.split('#')[1]
     order_num = data.split('/')[0]
     anon = data.split('/')[1]
-    # print('>>> ANON? -> ', anon)
     qr_buffer = await place_order(callback.from_user.id, order_num, False, anon)
     if qr_buffer:
         await callback.message.answer_photo(photo = send_buffer(qr_buffer.getvalue(), f'qrcode_{callback.from_user.id}.png'), 
@@ -74,11 +73,9 @@ async def process_pre_checkout_query(pre_checkout_query: PreCheckoutQuery):
 
 @router.message(F.successful_payment)
 async def success_payment(message: Message):
-    print('GET ADD ORDER AND DEL CART')
     data = message.successful_payment.invoice_payload.split('#')[1]
     order_num = data.split('/')[0]
     anon = data.split('/')[1]
-    print(f'\nORDER ID - {order_num}')
     qr_buffer = await place_order(message.from_user.id, order_num, True, anon)
     if qr_buffer:
         await message.answer_photo(photo = send_buffer(qr_buffer.getvalue(), f'qrcode_{message.from_user.id}.png'), 
